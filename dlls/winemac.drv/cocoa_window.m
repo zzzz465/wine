@@ -988,6 +988,19 @@ static CVReturn WineDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTi
         return layer;
     }
 
+    - (void) resizeWithOldSuperviewSize:(NSSize)oldSize
+    {
+        [super resizeWithOldSuperviewSize:oldSize];
+        if ([self superview])
+            [self setFrame:[[self superview] bounds]];
+    }
+
+    - (void) setFrameSize:(NSSize)newSize
+    {
+        [super setFrameSize:newSize];
+        [(CAMetalLayer *)self.layer setNeedsLayout];
+    }
+
     - (BOOL) isOpaque
     {
         return YES;
